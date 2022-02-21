@@ -28,11 +28,12 @@ def index():
                                 host="localhost",
                                 port="5432")
             cursor = conn.cursor()
-            cursor.execute("SELECT name FROM users.user WHERE login=%s and password=%s",
+            cursor.execute("SELECT name,login,password FROM users.user WHERE login=%s and password=%s",
             (str(login), str(password)))
             records = cursor.fetchall()
-            if records !="":
-                return render_template('account.html', full_name = records[0][0])
+            print(records)
+            if len(records )!=0:
+                return render_template('account.html', full_name = records[0][0],login = records[0][1], password = records[0][2])
             else:
                 return "Введите пароль или логин заново"
         if request.form.get('registration'):
